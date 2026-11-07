@@ -31,8 +31,7 @@ import Accounts from "./pages/Accounts";
 import Roles from "./pages/Roles";
 import Audit from "./pages/Audit";
 import Maintenance from "./pages/Maintenance";
-import { canManage, type CatalogKind } from "./lib/catalog";
-import { canRequest } from './lib/booking-access';
+import { workspaceNavigation } from './lib/workspace-navigation';
 
 function Workspace() {
   const { user, signOut } = useAuth();
@@ -64,9 +63,6 @@ function Workspace() {
     document.getElementById("main-content")?.focus();
   }, [pathname]);
   if (!user) return <Navigate to="/login" replace />;
-  const canReport = user.permissions.some((p) =>
-    ["report.facility.view", "report.asset.view"].includes(p),
-  );
   async function logout() {
     setPending(true);
     setError("");
@@ -106,71 +102,9 @@ function Workspace() {
         >
           <p className="nav-label">WORKSPACE</p>
           <nav aria-label="Main navigation">
-            <NavLink to="/" end>
-              <span aria-hidden="true">▦</span>Overview
-            </NavLink>
-            {user.permissions.includes("facility.view") && (
-              <NavLink to="/facilities">
-                <span aria-hidden="true">▥</span>Facilities
-              </NavLink>
-            )}
-            {user.permissions.includes("asset.view") && (
-              <NavLink to="/assets">
-                <span aria-hidden="true">▧</span>Assets
-              </NavLink>
-            )}
-            {(canRequest(user, 'facility') || canRequest(user, 'asset')) && <NavLink to="/requests">
-              <span aria-hidden="true">▤</span>My requests
-            </NavLink>}
-            {user.permissions.includes('asset.view') && <NavLink to="/asset-qr"><span aria-hidden="true">▧</span>Scan an asset</NavLink>}
-            <NavLink to="/asset-problems"><span aria-hidden="true">!</span>Asset problems</NavLink>
-            {user.permissions.some((permission) => ["facility.view", "asset.view"].includes(permission)) && (
-              <NavLink to="/calendar"><span aria-hidden="true">▦</span>Booking calendar</NavLink>
-            )}
-            {user.permissions.some((p) =>
-              ["facility_booking.view_all", "asset_booking.view_all"].includes(
-                p,
-              ),
-            ) && (
-              <NavLink to="/review">
-                <span aria-hidden="true">✓</span>Booking review
-              </NavLink>
-            )}
-            <NavLink to="/notifications">
-              <span aria-hidden="true">◷</span>Notifications
-            </NavLink>
-            {canReport && (
-              <NavLink to="/reports">
-                <span aria-hidden="true">▤</span>Reports
-              </NavLink>
-            )}
-            {(
-              [
-                "departments",
-                "facility-categories",
-                "asset-categories",
-                "facilities",
-                "assets",
-              ] as CatalogKind[]
-            ).some((kind) => canManage(kind, user.permissions)) && (
-              <NavLink to="/manage">
-                <span aria-hidden="true">▥</span>Manage catalog
-              </NavLink>
-            )}
-            {user.permissions.some((p) =>
-              ["user.manage", "role.manage", "permission.manage"].includes(p),
-            ) && (
-              <NavLink to="/administration">
-                <span aria-hidden="true">○</span>Access administration
-              </NavLink>
-            )}
-            {user.permissions.some((p) => ["facility.maintenance.manage", "asset.maintenance.manage"].includes(p)) && (
-              <NavLink to="/maintenance"><span aria-hidden="true">⚒</span>Maintenance</NavLink>
-            )}
-            {user.permissions.includes("audit.view") && <NavLink to="/audit"><span aria-hidden="true">▤</span>Audit history</NavLink>}
-            <NavLink to="/account">
-              <span aria-hidden="true">○</span>My account
-            </NavLink>
+            {workspaceNavigation(user).map(item => <NavLink key={item.to} to={item.to} end={item.to === '/'}>
+              <span aria-hidden="true">{item.icon}</span>{item.label}
+            </NavLink>)}
           </nav>
           <div className="sidebar-bottom">
             <p className="nav-label">CAMPUS TIME</p>

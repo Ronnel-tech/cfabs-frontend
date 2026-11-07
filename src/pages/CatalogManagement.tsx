@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../lib/session";
 import { api } from "../lib/api";
-import { catalogs, catalogName, canManage } from "../lib/catalog";
+import { catalogs, catalogName, canManage, catalogLabels } from "../lib/catalog";
 import type { CatalogKind, CatalogRecord } from "../lib/catalog";
 import CatalogEditor from "../components/CatalogEditor";
 import {
@@ -63,9 +63,8 @@ export default function CatalogManagement() {
   }
   return (
     <>
-      <PageHeading eyebrow="Campus administration" title="Catalog management">
-        Maintain campus resources, categories, and departments. Booking
-        protections are checked by the server.
+      <PageHeading eyebrow="Resource management" title={`Manage ${config.title.toLowerCase()}`}>
+        Maintain {config.title.toLowerCase()} and their current status. Changes are checked against existing bookings.
       </PageHeading>
       <nav className="catalog-navigation" aria-label="Catalog sections">
         {(Object.keys(catalogs) as CatalogKind[])
@@ -115,7 +114,7 @@ export default function CatalogManagement() {
               (parent.data?.tracking_mode === "individual" &&
                 parent.data.status === "active")) && (
               <Button disabled={!!editor} onClick={() => setEditor({})}>
-                Create record
+                Add {catalogLabels[selected]}
               </Button>
             )}
         </div>

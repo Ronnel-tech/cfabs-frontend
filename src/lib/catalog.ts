@@ -19,6 +19,10 @@ export type CatalogKind =
   | "facilities"
   | "assets"
   | "instances";
+export const catalogLabels: Record<CatalogKind, string> = {
+  departments: 'department', 'facility-categories': 'facility category',
+  'asset-categories': 'asset category', facilities: 'facility', assets: 'asset', instances: 'tagged item',
+};
 const text = (
   key: string,
   label: string,

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, ApiError } from "../lib/api";
-import { catalogs, catalogName, catalogPayload } from "../lib/catalog";
+import { catalogs, catalogName, catalogPayload, catalogLabels } from "../lib/catalog";
 import type { CatalogKind, CatalogRecord } from "../lib/catalog";
 import { Button, ErrorState, Loading } from "./ui";
 
@@ -146,9 +146,8 @@ export default function CatalogEditor({
           {statusOnly
             ? "Change status"
             : record
-              ? "Edit record"
-              : "Create record"}{" "}
-          · {config.title}
+              ? `Edit ${catalogLabels[kind]}`
+              : `Add ${catalogLabels[kind]}`}
         </h2>
         {record && (
           <p className="muted">
@@ -333,7 +332,7 @@ export default function CatalogEditor({
               ? "Saving…"
               : statusOnly
                 ? "Confirm status change"
-                : "Save record"}
+                : `Save ${catalogLabels[kind]}`}
           </Button>
         </div>
       </form>

@@ -71,9 +71,9 @@ export default function Overview() {
             </section>}
             <nav className="action-buttons dashboard-actions" aria-label="Dashboard actions">
               {personal && <Link className="button button-primary" to="/requests">My requests</Link>}
-              {user?.permissions.some(p => ['facility_booking.view_all', 'asset_booking.view_all'].includes(p)) && <Link className="button button-primary" to="/review">Review requests</Link>}
+              {user?.permissions.some(p => ['facility_booking.view_all', 'asset_booking.view_all'].includes(p)) && <Link className="button button-primary" to="/review">{mode === 'facility' ? 'Review facility requests' : mode === 'asset' ? 'Review asset requests & handovers' : 'Review requests'}</Link>}
               {user?.permissions.includes('user.manage') && <Link className="button button-secondary" to="/administration/accounts">Manage accounts</Link>}
-              {user?.permissions.some(p => ['facility.create', 'asset.create'].includes(p)) && <Link className="button button-secondary" to="/manage">Manage catalog</Link>}
+              {user?.permissions.some(p => ['facility.create', 'asset.create'].includes(p)) && <Link className="button button-secondary" to={mode === 'facility' ? '/manage/facilities' : mode === 'asset' ? '/manage/assets' : '/manage'}>{mode === 'facility' ? 'Manage facilities' : mode === 'asset' ? 'Manage assets' : 'Manage resources'}</Link>}
             </nav>
             <div className="stat-grid">
               <article className="stat">
