@@ -1,0 +1,59 @@
+.campus-calendar {
+  --fc-classic-primary: var(--color-brand);
+  --fc-classic-primary-foreground: #fff;
+  --fc-classic-button: var(--color-brand);
+  --fc-classic-button-border: var(--color-brand);
+  --fc-classic-button-strong: #104b41;
+  --fc-classic-button-strong-border: #104b41;
+  --fc-classic-border: var(--color-line);
+  --fc-classic-today: #eef4ef;
+  --fc-classic-foreground: var(--color-ink);
+  --fc-classic-muted-foreground: var(--color-muted);
+  margin-block: 2rem;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-panel);
+  min-width: 0;
+}
+.calendar-filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.calendar-filter-grid .field { min-width: 0; margin-bottom: 0; }
+.calendar-filter-grid input, .calendar-filter-grid select { width: 100%; min-width: 0; }
+.calendar-filter-grid .action-buttons { flex-wrap: nowrap; }
+.calendar-filters { margin-block: 1.5rem; }
+.calendar-filters > .muted { font-size: .8125rem; margin-block: 1rem; }
+.calendar-range { margin-top: 1rem; }
+.calendar-range summary { cursor: pointer; font-weight: 600; }
+.calendar-range form { margin-top: 1rem; align-items: end; }
+.calendar-check h2 { font-size: 1.125rem; font-weight: 650; }
+.calendar-check > p { margin-block: .75rem; }
+.calendar-check .calendar-filter-grid { margin-block: 1.25rem; }
+.calendar-legend { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: 1rem; }
+.calendar-legend > span { padding: .25rem .5rem; border-left: 4px solid var(--calendar-kind-color); font-size: .75rem; }
+.calendar-facility_booking { --calendar-kind-color: #145d50; --fc-classic-event: var(--calendar-kind-color); }
+.calendar-asset_booking { --calendar-kind-color: #305c88; --fc-classic-event: var(--calendar-kind-color); }
+.calendar-facility_maintenance { --calendar-kind-color: #89520f; --fc-classic-event: var(--calendar-kind-color); }
+.calendar-asset_maintenance { --calendar-kind-color: #744663; --fc-classic-event: var(--calendar-kind-color); }
+.calendar-status-cancelled .calendar-event-text, .calendar-status-rejected .calendar-event-text, .calendar-status-completed .calendar-event-text { border-left-style: dotted; }
+.calendar-event-text { display: grid; gap: .125rem; padding: .125rem .25rem; border-left: 3px solid var(--calendar-kind-color); line-height: 1.35; overflow-wrap: anywhere; }
+.calendar-status-pending .calendar-event-text { border-left-style: dashed; }
+.calendar-event-text strong { font-weight: 600; }
+.calendar-event-text > span { font-size: .6875rem; }
+.calendar-detail dl { display: grid; grid-template-columns: auto 1fr; gap: .75rem 1.25rem; margin-block: 1.25rem; }
+.calendar-detail dd, .calendar-description { overflow-wrap: anywhere; white-space: pre-wrap; }
+.calendar-detail dt { color: var(--color-muted); }
+.campus-calendar :focus-visible { outline: 3px solid var(--color-brand); outline-offset: 3px; }
+@media (max-width: 1000px) { .calendar-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .calendar-filter-grid { grid-template-columns: 1fr; }
+  .campus-calendar { padding: .75rem; }
+  .campus-calendar-toolbar { flex-wrap: wrap; gap: .75rem; }
+  .campus-calendar-title { font-size: 1.125rem; }
+  .campus-calendar-toolbar button { min-height: 2.75rem; }
+  .calendar-event-text { font-size: .8125rem; }
+  .calendar-event-text > span { font-size: .75rem; }
+  .calendar-month .calendar-event-text { font-size: .6875rem; }
+  .calendar-month .calendar-event-text > span { font-size: .625rem; }
+  .calendar-detail dl { grid-template-columns: 1fr; gap: .25rem; }
+  .calendar-detail dd { margin-bottom: .75rem; }
+}
