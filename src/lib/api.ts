@@ -1,3 +1,6 @@
+import { apiOrigin } from './api-origin.ts';
+const backendOrigin = apiOrigin(import.meta.env?.VITE_API_ORIGIN, import.meta.env?.PROD);
+
 export type Tokens = { access_token: string; refresh_token: string };
 export type DownloadFormat = 'csv' | 'xlsx' | 'pdf' | 'jpeg';
 const downloadTypes = { csv: 'text/csv', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', pdf: 'application/pdf', jpeg: 'image/jpeg' };
@@ -32,7 +35,7 @@ export function createApi(fetcher: typeof fetch = fetch, expired = () => {}) {
   ): Promise<T> {
     let response: Response;
     try {
-      response = await fetcher(`/api${path}`, {
+      response = await fetcher(`${backendOrigin}/api${path}`, {
         ...init,
         cache: "no-store",
         headers: {

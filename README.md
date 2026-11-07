@@ -350,3 +350,13 @@ Submission does not block inventory. Starting work creates linked maintenance
 through the existing booking/stock checks. Closing linked work updates the
 report; cancellation leaves it assigned for follow-up. See
 `../Lavalust/docs/asset-problems.md` for permissions, photos and endpoints.
+# Render / Vercel deployment
+
+Production frontend: `https://cfabs-frontend.vercel.app`.
+Backend: `https://cfabs-1.onrender.com`. Public `.env.production` sets this API origin;
+local Vite development keeps its port-3000 proxy. Use `npm run build:vercel` and
+the included `vercel.json` for production builds and SPA deep links. All `VITE_`
+variables are public; backend credentials belong only in Render Environment.
+
+See `../Lavalust/docs/deployment.md` for exact Render/Vercel settings, required
+environment variables, separate repository setup and the post-deploy smoke script.
