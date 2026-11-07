@@ -9,6 +9,8 @@ export type Profile = {
   permissions: string[];
 };
 export type Dashboard = {
+  scope: 'personal' | 'facility' | 'asset' | 'administration' | 'operations' | 'staff';
+  catalog_totals: Partial<Record<'users' | 'departments' | 'facilities' | 'assets', number>> | null;
   start_utc: string;
   end_utc: string;
   facility_bookings: Record<string, number>;

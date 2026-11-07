@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../lib/session";
+import { canRequest } from '../lib/booking-access';
 import { api } from "../lib/api";
 import {
   addDays,
@@ -39,7 +40,7 @@ export default function ResourceAvailability({ kind }: { kind: ResourceKind }) {
   const [requestLocked, setRequestLocked] = useState(false);
   const locked =
     requestLocked &&
-    !!user?.permissions.includes(`${kind}_booking.create`) &&
+    canRequest(user, kind) &&
     !!user?.department_id;
   const permitted = !!user?.permissions.includes(`${kind}.view`);
   const validId = /^[1-9]\d*$/.test(id);

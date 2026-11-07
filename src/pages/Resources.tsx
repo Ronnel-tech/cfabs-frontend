@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../lib/session";
+import { canRequest } from '../lib/booking-access';
 import { api } from "../lib/api";
 import { resourceCode, resourceName, resourcePath } from "../lib/availability";
 import type { Resource, ResourceKind } from "../lib/availability";
@@ -28,10 +29,10 @@ export default function Resources({ kind }: { kind: ResourceKind }) {
   return (
     <>
       <PageHeading
-        eyebrow="Find what you need"
+        eyebrow={canRequest(user, kind) ? 'Find what you need' : 'Resource schedules'}
         title={kind === "facility" ? "Campus facilities" : "Shared assets"}
       >
-        {kind === "facility"
+        {!canRequest(user, kind) ? 'View resource schedules and availability for planning and operational review.' : kind === "facility"
           ? "Explore campus spaces and find an open time for your activity."
           : "Check equipment availability and quantities for your borrowing period."}
       </PageHeading>
@@ -75,7 +76,7 @@ export default function Resources({ kind }: { kind: ResourceKind }) {
                 className="button button-secondary"
                 to={`/${path}/${resource.id}`}
               >
-                Check availability <span aria-hidden="true">→</span>
+                {canRequest(user, kind) ? 'Check availability' : 'View schedule and availability'} <span aria-hidden="true">→</span>
               </Link>
             </li>
           ))}

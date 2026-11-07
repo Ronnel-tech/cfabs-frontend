@@ -14,6 +14,7 @@ import '@fullcalendar/react/themes/classic/palette.css';
 import '../calendar.css';
 import { api } from '../lib/api';
 import { useAuth } from '../lib/session';
+import { canRequest } from '../lib/booking-access';
 import { addDays, campusToday, rangeError } from '../lib/availability';
 import type { ResourceKind } from '../lib/availability';
 import { calendarCategories, calendarPath, calendarRange, calendarResourceLink, calendarSelection, emptyCalendarFilters } from '../lib/calendar';
@@ -171,7 +172,7 @@ export default function CalendarPage() {
         <div className="field"><label htmlFor="calendar-end">End or expected return</label><input id="calendar-end" type="datetime-local" value={period.end} onChange={(event) => setPeriod({ ...period, end: event.target.value })} /></div>
       </div>
       {periodError && <p className="notice notice-error" role="alert">{periodError}</p>}
-      {resource && !periodError ? <Link className="button button-primary" to={calendarResourceLink(kind, Number(resourceId), period)}>Check availability and request</Link> : <p className="muted">Select a resource and valid dates to continue.</p>}
+      {resource && !periodError ? <Link className="button button-primary" to={calendarResourceLink(kind, Number(resourceId), period)}>{canRequest(user, kind) ? 'Check availability and request' : 'View schedule and availability'}</Link> : <p className="muted">Select a resource and valid dates to continue.</p>}
     </section>
     <section className={`campus-calendar ${range?.view === 'dayGridMonth' ? 'calendar-month' : ''}`} aria-label="Campus booking calendar" aria-busy={query.isFetching}>
       <div className="section-toolbar"><p className="muted" role="status">{query.isFetching ? 'Updating calendar…' : query.error ? 'Calendar could not be loaded.' : `${events.length} ${events.length === 1 ? 'event' : 'events'} · updates every 30 seconds while visible`}</p><Button type="button" variant="secondary" disabled={!range || query.isFetching} onClick={() => void query.refetch()}>Refresh calendar</Button></div>

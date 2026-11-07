@@ -4,6 +4,8 @@ import { useAuth } from "../lib/session";
 import { api } from "../lib/api";
 import { campusDate, displayName } from "../lib/types";
 import type { Dashboard } from "../lib/types";
+import { dashboardCopy, dashboardMode } from '../lib/dashboard';
+import { canRequest } from '../lib/booking-access';
 import {
   Button,
   EmptyState,
@@ -15,29 +17,33 @@ import {
 export default function Overview() {
   const { user } = useAuth();
   const query = useQuery({
-    queryKey: ["dashboard"],
+    queryKey: ["dashboard", user?.id, user?.role_name],
     queryFn: ({ signal }) => api.request<Dashboard>("/dashboard", { signal }),
   });
   const data = query.data;
+  const mode = data?.scope ?? dashboardMode(user);
+  const copy = dashboardCopy[mode];
+  const personal = mode === 'personal';
+  const facilityOnly = mode === 'facility';
   const count = (statuses: string[]) =>
     statuses.reduce(
       (total, status) =>
         total +
-        Number(data?.facility_bookings[status] || 0) +
-        Number(data?.asset_bookings[status] || 0),
+        Number(data?.facility_bookings?.[status] || 0) +
+        Number(data?.asset_bookings?.[status] || 0),
       0,
     );
   return (
     <>
       <PageHeading
-        eyebrow="Your campus at a glance"
-        title={`Welcome, ${user ? user.first_name || displayName(user) : ""}.`}
+        eyebrow={user ? `Welcome, ${user.first_name || displayName(user)}` : 'Campus workspace'}
+        title={copy.title}
       >
-        Keep track of your requests and the equipment in your care.
+        {copy.intro}
       </PageHeading>
       <div className="section-toolbar">
         <div>
-          <h2>My booking overview</h2>
+          <h2>{personal ? 'My requests and reservations' : 'Booking activity'}</h2>
           {data && (
             <p className="muted">
               {campusDate(data.start_utc)} – {campusDate(data.end_utc)} ·
@@ -60,21 +66,30 @@ export default function Overview() {
       ) : (
         data && (
           <>
+            {mode === 'administration' && data.catalog_totals && <section aria-label="System totals" className="stat-grid">
+              {Object.entries(data.catalog_totals).map(([name, total]) => <article className="stat" key={name}><p>{name === 'assets' ? 'Asset groups' : name.charAt(0).toUpperCase() + name.slice(1)}</p><strong>{total}</strong><span>Registered records</span></article>)}
+            </section>}
+            <nav className="action-buttons dashboard-actions" aria-label="Dashboard actions">
+              {personal && <Link className="button button-primary" to="/requests">My requests</Link>}
+              {user?.permissions.some(p => ['facility_booking.view_all', 'asset_booking.view_all'].includes(p)) && <Link className="button button-primary" to="/review">Review requests</Link>}
+              {user?.permissions.includes('user.manage') && <Link className="button button-secondary" to="/administration/accounts">Manage accounts</Link>}
+              {user?.permissions.some(p => ['facility.create', 'asset.create'].includes(p)) && <Link className="button button-secondary" to="/manage">Manage catalog</Link>}
+            </nav>
             <div className="stat-grid">
               <article className="stat">
-                <p>Awaiting a decision</p>
+                <p>{personal ? 'Awaiting a decision' : 'Awaiting review'}</p>
                 <strong>{count(["PENDING"])}</strong>
                 <span>Pending requests</span>
               </article>
               <article className="stat">
-                <p>Ready to go</p>
-                <strong>{count(["APPROVED"])}</strong>
+                <p>{personal ? 'Ready to go' : 'Approved reservations'}</p>
+                <strong>{count(["APPROVED", "READY_FOR_RELEASE"])}</strong>
                 <span>Approved bookings</span>
               </article>
               <article className="stat">
-                <p>Currently borrowed</p>
-                <strong>{count(["RELEASED"])}</strong>
-                <span>Released asset bookings</span>
+                <p>{facilityOnly ? 'Cancelled' : 'Currently borrowed'}</p>
+                <strong>{count(facilityOnly ? ['CANCELLED'] : ["RELEASED"])}</strong>
+                <span>{facilityOnly ? 'Cancelled facility bookings' : 'Released asset bookings'}</span>
               </article>
               <article className="stat">
                 <p>Completed</p>
@@ -82,10 +97,10 @@ export default function Overview() {
                 <span>Finished bookings</span>
               </article>
             </div>
-            <section className="surface">
+            {!facilityOnly && mode !== 'staff' && <section className="surface">
               <div className="section-toolbar">
                 <div>
-                  <p className="eyebrow">Equipment in your care</p>
+                  <p className="eyebrow">{personal ? 'Equipment in your care' : 'Asset custody follow-up'}</p>
                   <h2>Overdue returns</h2>
                 </div>
                 <span
@@ -111,21 +126,21 @@ export default function Overview() {
                   ))}
                 </ul>
               ) : (
-                <EmptyState title="You’re all caught up">
-                  You have no overdue asset returns.
+                <EmptyState title="No overdue returns">
+                  {personal ? 'You have no overdue asset returns.' : 'No overdue asset returns in your dashboard scope.'}
                 </EmptyState>
               )}
-            </section>
+            </section>}
             <p className="refresh-caption">
               Updates every 30 seconds while this page is open.{" "}
               <Link to="/notifications">
-                View approval and rejection notices →
+                View notifications →
               </Link>
             </p>
           </>
         )
       )}
-      <section className="policy-strip" aria-label="Booking guidelines">
+      {(canRequest(user, 'facility') || canRequest(user, 'asset')) && <section className="policy-strip" aria-label="Booking guidelines">
         <div>
           <span className="eyebrow">Plan ahead</span>
           <h2>A few things to know</h2>
@@ -140,7 +155,7 @@ export default function Overview() {
           <strong>Approval reserves it</strong>Pending requests do not hold
           availability
         </p>
-      </section>
+      </section>}
     </>
   );
 }

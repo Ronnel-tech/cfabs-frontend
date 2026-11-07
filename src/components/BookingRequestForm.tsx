@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import { useAuth } from "../lib/session";
+import { canRequest } from '../lib/booking-access';
 import type { Availability, Resource, ResourceKind } from "../lib/availability";
 import { campusInstant } from "../lib/availability";
 import { campusDate } from "../lib/types";
@@ -73,7 +74,7 @@ export default function BookingRequestForm({
   } catch (failure) {
     recurrenceError = (failure as Error).message;
   }
-  if (!user?.permissions.includes(`${kind}_booking.create`)) return null;
+  if (!user || !canRequest(user, kind)) return null;
   if (!user.department_id)
     return (
       <p className="notice">

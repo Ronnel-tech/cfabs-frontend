@@ -32,6 +32,7 @@ import Roles from "./pages/Roles";
 import Audit from "./pages/Audit";
 import Maintenance from "./pages/Maintenance";
 import { canManage, type CatalogKind } from "./lib/catalog";
+import { canRequest } from './lib/booking-access';
 
 function Workspace() {
   const { user, signOut } = useAuth();
@@ -118,9 +119,9 @@ function Workspace() {
                 <span aria-hidden="true">▧</span>Assets
               </NavLink>
             )}
-            <NavLink to="/requests">
+            {(canRequest(user, 'facility') || canRequest(user, 'asset')) && <NavLink to="/requests">
               <span aria-hidden="true">▤</span>My requests
-            </NavLink>
+            </NavLink>}
             {user.permissions.includes('asset.view') && <NavLink to="/asset-qr"><span aria-hidden="true">▧</span>Scan an asset</NavLink>}
             <NavLink to="/asset-problems"><span aria-hidden="true">!</span>Asset problems</NavLink>
             {user.permissions.some((permission) => ["facility.view", "asset.view"].includes(permission)) && (

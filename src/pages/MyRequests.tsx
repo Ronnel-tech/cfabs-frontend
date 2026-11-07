@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../lib/session";
+import { canRequest } from '../lib/booking-access';
 import { api } from "../lib/api";
 import {
   bookingEnd,
@@ -42,6 +43,7 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
         { signal },
       ),
   });
+  if (!review && !canRequest(user, 'facility') && !canRequest(user, 'asset')) return <Navigate to="/" replace />;
   if (!kinds.length)
     return (
       <PageHeading
