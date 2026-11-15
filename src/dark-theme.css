@@ -105,6 +105,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
 @keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes feedback-enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes menu-enter { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes copy-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* One short reading sequence when a page opens; content stays still afterward. */
+.page-heading .eyebrow { animation: copy-enter .38s ease-out both; }
+.page-heading h1, .login-form-wrap h1, .intro-copy h2 { animation: copy-enter .42s .08s ease-out both; }
+.page-heading > .muted, .login-form-wrap h1 + .muted { animation: copy-enter .42s .16s ease-out both; }
+.overview-page .stat strong { animation: copy-enter .38s .22s ease-out both; }
+.overview-page .stat:nth-child(2) strong { animation-delay: .27s; }
+.overview-page .stat:nth-child(3) strong { animation-delay: .32s; }
+.overview-page .stat:nth-child(4) strong { animation-delay: .37s; }
+.insights-heading h2 { animation: copy-enter .38s ease-out both; }
 
 .login-intro { background: #121212; border-right: 1px solid var(--color-line); }
 .login-panel { background: #0b0b0b; }
@@ -243,6 +254,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
   .notice[role="alert"], .notice[role="status"],
   .calendar-range[open] > form, .audit-list details[open] > :not(summary),
   .sidebar-content.is-open { animation: none; }
+  .page-heading .eyebrow, .page-heading h1, .page-heading > .muted,
+  .login-form-wrap h1, .login-form-wrap h1 + .muted, .intro-copy h2,
+  .overview-page .stat strong, .insights-heading h2 { animation: none; }
 }
 @media (max-width: 420px) {
   .stat-grid { grid-template-columns: 1fr 1fr; }
