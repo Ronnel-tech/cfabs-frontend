@@ -8,6 +8,10 @@ This React, TypeScript, Vite, and Tailwind CSS application lives in `Booking-Sys
 
 Run `npm ci`, `npm run dev`, `npm run build`, `npm test`, and `npm run lint` from this frontend directory. Follow `README.md` for backend startup and deployment requirements. Use two-space indentation, single quotes, PascalCase React components, and the existing Oxlint rules. Keep pages in `src/pages/`, reusable UI in `src/components/`, and API/session utilities in `src/lib/`. Reuse design tokens in `src/index.css`.
 
+## Current visual direction
+
+Use the installed `frontend-design` skill for visual work. The reference images supplied by the project owner establish a dark, compact dashboard with charcoal surfaces, fine borders, orange `#E85002` as the primary accent, restrained green only for positive status, and colorful imagery only when it represents real content. Apply this direction across the existing frontend, including sign-in and mobile layouts. Preserve page structure, wording, routes, booking behavior, and backend contracts unless a later request changes them. Keep visual changes in shared styles and components where possible. Check desktop and mobile screenshots after implementation.
+
 ## Scope, Dependencies & Configuration
 
 Make focused changes without unnecessary rewrites or unrelated refactoring. Inspect only relevant files, reuse prior findings, minimize repeated reads and tool calls, and keep responses concise. Reuse existing methods and dependencies; add maintained React libraries only when they clearly improve the workflow. Never place backend credentials or signing keys in this application. Preserve memory-only token handling and backend permission enforcement. Include validation results and screenshots for visual changes in pull requests.

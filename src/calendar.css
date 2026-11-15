@@ -3,15 +3,15 @@
   --fc-classic-primary-foreground: #fff;
   --fc-classic-button: var(--color-brand);
   --fc-classic-button-border: var(--color-brand);
-  --fc-classic-button-strong: #104b41;
-  --fc-classic-button-strong-border: #104b41;
+  --fc-classic-button-strong: #b53d00;
+  --fc-classic-button-strong-border: #b53d00;
   --fc-classic-border: var(--color-line);
-  --fc-classic-today: #eef4ef;
+  --fc-classic-today: #2b211b;
   --fc-classic-foreground: var(--color-ink);
   --fc-classic-muted-foreground: var(--color-muted);
   margin-block: 2rem;
   padding: 1.25rem;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-panel);
   min-width: 0;
@@ -30,7 +30,7 @@
 .calendar-check .calendar-filter-grid { margin-block: 1.25rem; }
 .calendar-legend { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: 1rem; }
 .calendar-legend > span { padding: .25rem .5rem; border-left: 4px solid var(--calendar-kind-color); font-size: .75rem; }
-.calendar-facility_booking { --calendar-kind-color: #145d50; --fc-classic-event: var(--calendar-kind-color); }
+.calendar-facility_booking { --calendar-kind-color: #e85002; --fc-classic-event: var(--calendar-kind-color); }
 .calendar-asset_booking { --calendar-kind-color: #305c88; --fc-classic-event: var(--calendar-kind-color); }
 .calendar-facility_maintenance { --calendar-kind-color: #89520f; --fc-classic-event: var(--calendar-kind-color); }
 .calendar-asset_maintenance { --calendar-kind-color: #744663; --fc-classic-event: var(--calendar-kind-color); }
