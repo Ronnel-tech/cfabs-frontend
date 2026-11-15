@@ -9,6 +9,13 @@
   --fc-classic-today: #2b211b;
   --fc-classic-foreground: var(--color-ink);
   --fc-classic-muted-foreground: var(--color-muted);
+  --fc-classic-background: #171717;
+  --fc-classic-faint: #ffffff0a;
+  --fc-classic-muted: #ffffff14;
+  --fc-classic-strong: #ffffff24;
+  --fc-classic-faint-foreground: #a7a7a7;
+  --fc-classic-strong-border: #555;
+  --fc-classic-button-foreground: #fff;
   margin-block: 2rem;
   padding: 1.25rem;
   background: var(--surface);
@@ -16,6 +23,13 @@
   border-radius: var(--radius-panel);
   min-width: 0;
 }
+.campus-calendar .fc { color: var(--color-ink); }
+.campus-calendar .fc-daygrid-day-number,
+.campus-calendar .fc-col-header-cell-cushion,
+.campus-calendar .fc-list-day-text,
+.campus-calendar .fc-list-day-side-text { color: var(--color-ink); }
+.campus-calendar .fc-day-other .fc-daygrid-day-number { color: var(--color-muted); }
+.campus-calendar .calendar-event-text { color: #fff; }
 .calendar-filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .calendar-filter-grid .field { min-width: 0; margin-bottom: 0; }
 .calendar-filter-grid input, .calendar-filter-grid select { width: 100%; min-width: 0; }

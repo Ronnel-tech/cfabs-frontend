@@ -174,7 +174,7 @@ export default function CalendarPage() {
       {periodError && <p className="notice notice-error" role="alert">{periodError}</p>}
       {resource && !periodError ? <Link className="button button-primary" to={calendarResourceLink(kind, Number(resourceId), period)}>{canRequest(user, kind) ? 'Check availability and request' : 'View schedule and availability'}</Link> : <p className="muted">Select a resource and valid dates to continue.</p>}
     </section>
-    <section className={`campus-calendar ${range?.view === 'dayGridMonth' ? 'calendar-month' : ''}`} aria-label="Campus booking calendar" aria-busy={query.isFetching}>
+    <section className={`campus-calendar ${range?.view === 'dayGridMonth' ? 'calendar-month' : ''}`} data-color-scheme="dark" aria-label="Campus booking calendar" aria-busy={query.isFetching}>
       <div className="section-toolbar"><p className="muted" role="status">{query.isFetching ? 'Updating calendar…' : query.error ? 'Calendar could not be loaded.' : `${events.length} ${events.length === 1 ? 'event' : 'events'} · updates every 30 seconds while visible`}</p><Button type="button" variant="secondary" disabled={!range || query.isFetching} onClick={() => void query.refetch()}>Refresh calendar</Button></div>
       {query.error && <ErrorState error={query.error} retry={() => void query.refetch()} />}
       <div className="calendar-legend">{categories.filter(([type]) => type.startsWith('facility') ? facility : asset).map(([type, label]) => <span key={type} className={`calendar-${type}`}>{label}</span>)}</div>
