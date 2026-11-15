@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { Dashboard } from '../lib/types';
 
@@ -17,7 +18,19 @@ function sum(counts: Record<string, number>, statuses: string[]) {
   return statuses.reduce((total, status) => total + Number(counts[status] || 0), 0);
 }
 
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduced(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  return reduced;
+}
+
 export default function DashboardInsights({ data }: { data: Dashboard }) {
+  const reducedMotion = useReducedMotion();
   const facilities = data.facility_bookings ?? {};
   const assets = data.asset_bookings ?? {};
   const known = new Set(groups.flatMap(group => group.statuses));
@@ -55,8 +68,8 @@ export default function DashboardInsights({ data }: { data: Dashboard }) {
                 <XAxis type="number" allowDecimals={false} tick={{ fill: '#a7a7a7', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis type="category" dataKey="name" width={72} tick={{ fill: '#d6d6d6', fontSize: 12 }} axisLine={false} tickLine={false} />
                 <Tooltip cursor={{ fill: '#ffffff0b' }} contentStyle={{ background: '#242424', border: '1px solid #4b4b4b', borderRadius: 8, color: '#f4f4f3' }} />
-                <Bar dataKey="Facilities" stackId="bookings" fill={colors.facility} radius={[0, 0, 0, 0]} isAnimationActive={false} />
-                <Bar dataKey="Assets" stackId="bookings" fill={colors.asset} radius={[0, 4, 4, 0]} isAnimationActive={false} />
+                <Bar dataKey="Facilities" stackId="bookings" fill={colors.facility} radius={[0, 0, 0, 0]} isAnimationActive={!reducedMotion} animationDuration={550} />
+                <Bar dataKey="Assets" stackId="bookings" fill={colors.asset} radius={[0, 4, 4, 0]} isAnimationActive={!reducedMotion} animationDuration={550} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -65,7 +78,7 @@ export default function DashboardInsights({ data }: { data: Dashboard }) {
             <div className="insights-donut" role="img" aria-label={`${facilityTotal} facility bookings and ${assetTotal} asset bookings`}>
               <ResponsiveContainer width="100%" height={170}>
                 <PieChart>
-                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={75} stroke="none" isAnimationActive={false}>
+                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={75} stroke="none" isAnimationActive={!reducedMotion} animationDuration={650}>
                     {pieData.map(item => <Cell key={item.name} fill={item.color} />)}
                   </Pie>
                 </PieChart>
