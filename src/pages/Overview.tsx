@@ -34,13 +34,15 @@ export default function Overview() {
       0,
     );
   return (
-    <>
+    <div className="overview-page">
+      <div className="overview-hero">
       <PageHeading
         eyebrow={user ? `Welcome, ${user.first_name || displayName(user)}` : 'Campus workspace'}
         title={copy.title}
       >
         {copy.intro}
       </PageHeading>
+      </div>
       <div className="section-toolbar">
         <div>
           <h2>{personal ? 'My requests and reservations' : 'Booking activity'}</h2>
@@ -131,12 +133,6 @@ export default function Overview() {
                 </EmptyState>
               )}
             </section>}
-            <p className="refresh-caption">
-              Updates every 30 seconds while this page is open.{" "}
-              <Link to="/notifications">
-                View notifications →
-              </Link>
-            </p>
           </>
         )
       )}
@@ -156,6 +152,10 @@ export default function Overview() {
           availability
         </p>
       </section>}
-    </>
+      {data && <p className="refresh-caption">
+        Updates every 30 seconds while this page is open.{" "}
+        <Link to="/notifications">View notifications →</Link>
+      </p>}
+    </div>
   );
 }
