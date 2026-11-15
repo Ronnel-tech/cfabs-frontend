@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { lazy, Suspense } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../lib/session";
 import { api } from "../lib/api";
@@ -13,6 +14,8 @@ import {
   Loading,
   PageHeading,
 } from "../components/ui";
+
+const DashboardInsights = lazy(() => import('../components/DashboardInsights'));
 
 export default function Overview() {
   const { user } = useAuth();
@@ -99,6 +102,9 @@ export default function Overview() {
                 <span>Finished bookings</span>
               </article>
             </div>
+            <Suspense fallback={<Loading label="Loading booking insights…" />}>
+              <DashboardInsights data={data} />
+            </Suspense>
             {!facilityOnly && mode !== 'staff' && <section className="surface">
               <div className="section-toolbar">
                 <div>

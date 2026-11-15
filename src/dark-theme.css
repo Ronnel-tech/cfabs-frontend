@@ -147,6 +147,27 @@ th, td { border-color: var(--color-line); }
 .overview-page:not(:has(> .surface)) > .policy-strip { grid-column: 1 / -1; }
 .overview-page > .refresh-caption { margin: 0 0 1.25rem; }
 
+.dashboard-insights { margin-bottom: 1.25rem; padding: 1.5rem; background: #171717; border: 1px solid var(--color-line); border-radius: var(--radius-panel); min-width: 0; }
+.insights-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--color-line); }
+.insights-heading h2 { margin-block: .3rem; font-size: 1.2rem; }
+.insights-heading .muted { font-size: .8rem; }
+.insights-total { text-align: right; font-size: 1.7rem; line-height: 1.15; font-weight: 650; white-space: nowrap; }
+.insights-total span { display: block; color: var(--color-muted); font-size: .7rem; font-weight: 500; }
+.insights-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(13rem, 1fr); gap: 1.5rem; padding-top: 1.25rem; }
+.insights-chart { min-width: 0; }
+.insights-mix { min-width: 0; padding-left: 1.5rem; border-left: 1px solid var(--color-line); }
+.insights-mix h3 { margin: 0; font-size: .875rem; font-weight: 600; }
+.insights-donut { position: relative; max-width: 13rem; margin: .5rem auto 0; }
+.insights-donut-total { position: absolute; inset: 0; display: grid; place-items: center; font-size: 1.5rem; font-weight: 650; pointer-events: none; }
+.insights-legend { margin: .25rem 0 0; font-size: .8rem; }
+.insights-legend > div { display: flex; justify-content: space-between; gap: 1rem; padding-block: .4rem; }
+.insights-legend dt { display: flex; align-items: center; gap: .5rem; color: #c9c9c9; }
+.insights-legend dd { margin: 0; font-weight: 650; }
+.insights-key { display: inline-block; width: .55rem; height: .55rem; border-radius: 2px; }
+.facility-key { background: #e85002; }
+.asset-key { background: #82b7e7; }
+.insights-empty { padding: 2.5rem 0 1rem; color: var(--color-muted); font-size: .875rem; }
+
 /* The sign-in screen has its own composition rather than borrowing dashboard cards. */
 .login-layout { grid-template-columns: minmax(24rem, 44%) minmax(0, 1fr); }
 .login-intro { position: relative; isolation: isolate; overflow: hidden; padding: 2.5rem clamp(2rem, 5vw, 5rem); background: #151311; }
@@ -188,6 +209,10 @@ th, td { border-color: var(--color-line); }
   .login-intro { padding: 1.25rem 1.5rem; }
   .login-intro::before { display: none; }
   .login-form-wrap { padding-block: 2rem; }
+  .dashboard-insights { padding: 1.25rem; }
+  .insights-grid { grid-template-columns: 1fr; gap: .5rem; }
+  .insights-mix { padding: 1.25rem 0 0; border-left: 0; border-top: 1px solid var(--color-line); }
+  .insights-donut { margin-inline: 0; }
 }
 @media (max-width: 420px) {
   .stat-grid { grid-template-columns: 1fr 1fr; }
