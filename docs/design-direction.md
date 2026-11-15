@@ -24,7 +24,7 @@ Mobile:  [brand / menu]
 
 ## Critique against the references
 
-The first theme pass changed color without changing hierarchy. The later large gradient and concentric rings in the dashboard and sign-in page still looked like generic generated decoration. The project owner supplied a dotted orange and violet artwork to replace the sign-in ring; keep it confined to the sign-in introduction, with a dark fade behind the copy. The chart is the useful visual emphasis in the dashboard because it displays real booking counts. Keep the rest of the shell quiet: fine borders, clear spacing, and restrained orange actions.
+The first theme pass changed color without changing hierarchy. The later large gradient and concentric rings in the dashboard and sign-in page still looked like generic generated decoration. The project owner supplied a dotted orange and violet artwork to replace the sign-in ring; keep it confined to the sign-in introduction, with a dark fade behind the copy. Four later references establish warm abstract imagery for dashboard metric cards and softer iOS-style rounded corners. Use each image as a subdued card background with dark coverage behind text. The chart remains the main data visual because it displays real booking counts. Keep other panels quiet: fine borders, clear spacing, and restrained orange actions.
 
 ## Review criteria
 

@@ -14,8 +14,8 @@
   --color-brand-hover: #ff681c;
   --color-canvas: #0b0b0b;
   --color-line: #303030;
-  --radius-control: .5rem;
-  --radius-panel: .625rem;
+  --radius-control: .875rem;
+  --radius-panel: 1.375rem;
   --shadow-panel: none;
   --surface: #171717;
   --surface-raised: #1e1e1e;
@@ -135,7 +135,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
 
 .overview-page { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 1.25rem; }
 .overview-page > * { grid-column: 1 / -1; }
-.overview-hero { min-height: 12rem; display: flex; align-items: flex-end; padding: 2rem 2.25rem; margin-bottom: 2rem; border: 1px solid var(--color-line); border-left: 3px solid var(--color-brand); border-radius: .625rem; background: #171717; }
+.overview-hero { min-height: 12rem; display: flex; align-items: flex-end; padding: 2rem 2.25rem; margin-bottom: 2rem; border: 1px solid var(--color-line); border-left: 3px solid var(--color-brand); border-radius: var(--radius-panel); background: #171717; }
 .overview-hero .page-heading { margin: 0; position: relative; z-index: 1; }
 .overview-hero .eyebrow { color: #ffa36c; }
 .overview-hero h1 { font-size: clamp(2rem, 3.2vw, 3rem); margin-block: .5rem .75rem; line-height: 1.1; }
@@ -145,9 +145,15 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
 .overview-page > .section-toolbar .muted { margin-top: .25rem; }
 .overview-page .dashboard-actions { margin-block: 0 1.5rem; }
 .overview-page .stat-grid { gap: 1rem; margin-bottom: 1.5rem; }
-.overview-page .stat { min-height: 9.25rem; position: relative; padding: 1.25rem 1.4rem; background: #171717; overflow: hidden; }
-.overview-page .stat::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 2px; background: #3d3d3d; }
-.overview-page .stat:first-child { background: linear-gradient(145deg, #251b14, #191716 70%); border-color: #5c3825 !important; }
+.overview-page .stat { min-height: 10rem; position: relative; isolation: isolate; padding: 1.25rem 1.4rem; background: #171717; overflow: hidden; }
+.overview-page .stat::before { content: ''; position: absolute; z-index: 2; inset: 0 auto 0 0; width: 2px; background: #3d3d3d; }
+.overview-page .stat::after { content: ''; position: absolute; z-index: 0; inset: 0; background-image: linear-gradient(90deg, #171717 5%, #171717e6 46%, #1717175c 100%), var(--stat-art); background-size: cover; background-position: center; pointer-events: none; }
+.overview-page .stat > * { position: relative; z-index: 1; }
+.overview-page .stat:nth-child(1) { --stat-art: url('/card-pulse.jpg'); }
+.overview-page .stat:nth-child(2) { --stat-art: url('/card-glow.jpg'); }
+.overview-page .stat:nth-child(3) { --stat-art: url('/card-fluid.jpg'); }
+.overview-page .stat:nth-child(4) { --stat-art: url('/card-reeded.jpg'); }
+.overview-page .stat:first-child { border-color: #5c3825 !important; }
 .overview-page .stat:first-child::before { background: #e85002; }
 .overview-page .stat strong { font-size: clamp(2rem, 2.7vw, 2.6rem); line-height: 1.1; margin-block: 1.1rem .35rem; }
 .overview-page .stat:first-child strong { color: #ff985f; }
