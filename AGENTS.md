@@ -11,6 +11,7 @@ Run `npm ci`, `npm run dev`, `npm run build`, `npm test`, and `npm run lint` fro
 ## Current visual direction
 
 Use the installed `frontend-design` skill for visual work. The reference images supplied by the project owner establish a dark, compact dashboard with charcoal surfaces, fine borders, orange `#E85002` as the primary accent, restrained green only for positive status, and colorful imagery only when it represents real content. Apply this direction across the existing frontend, including sign-in and mobile layouts. Preserve page structure, wording, routes, booking behavior, and backend contracts unless a later request changes them. Keep visual changes in shared styles and components where possible. Check desktop and mobile screenshots after implementation.
+Read `docs/design-direction.md` before changing the visual system. Update its critique when a new direction is approved, then inspect actual rendered screens at desktop and mobile widths.
 
 ## Scope, Dependencies & Configuration
 
