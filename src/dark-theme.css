@@ -185,8 +185,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
 
 /* The sign-in screen has its own composition rather than borrowing dashboard cards. */
 .login-layout { grid-template-columns: minmax(24rem, 44%) minmax(0, 1fr); }
-.login-intro { position: relative; padding: 2.5rem clamp(2rem, 5vw, 5rem); background: #151311; }
-.login-intro::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--color-brand); }
+.login-intro { position: relative; isolation: isolate; overflow: hidden; padding: 2.5rem clamp(2rem, 5vw, 5rem); background: #000; }
+.login-intro::before { content: ''; position: absolute; inset: 0; z-index: -2; background: url('/login-art.jpg') center 80% / cover no-repeat; }
+.login-intro::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #0007 0%, #0000 20%, #0008 43%, #000e 65%, #000 82%); }
 .intro-copy { margin-top: auto; margin-bottom: 0; padding-block: 5rem 3rem; }
 .intro-copy h2 { font-size: clamp(3rem, 5vw, 5.5rem); line-height: .99; }
 .intro-copy > p:last-of-type { font-size: 1rem; line-height: 1.6; }
@@ -221,7 +222,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 
   .overview-page .stat { min-height: 8rem; }
   .login-layout { grid-template-columns: 1fr; }
   .login-intro { padding: 1.25rem 1.5rem; }
-  .login-intro::before { width: 100%; height: 3px; }
+  .login-intro::before { background: var(--color-brand); height: 3px; bottom: auto; }
+  .login-intro::after { display: none; }
   .login-form-wrap { padding-block: 2rem; }
   .dashboard-insights { padding: 1.25rem; }
   .insights-grid { grid-template-columns: 1fr; gap: .5rem; }
