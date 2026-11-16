@@ -34,12 +34,13 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
     ? selectedKind
     : kinds[0] || "facility";
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState('');
   const query = useQuery({
-    queryKey: ["bookings", review ? "review" : "mine", kind, page],
+    queryKey: ["bookings", review ? "review" : "mine", kind, page, status],
     enabled: kinds.includes(kind),
     queryFn: ({ signal }) =>
       api.request<Booking[]>(
-        `/${bookingPath(kind)}?mine=${review ? "0" : "1"}&page=${page}&per_page=20`,
+        `/${bookingPath(kind)}?mine=${review ? "0" : "1"}&page=${page}&per_page=20${status ? `&status=${status}` : ''}`,
         { signal },
       ),
   });
@@ -58,10 +59,10 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
         title={review ? "Booking review" : "My requests"}
       >
         {review
-          ? "Review bookings and open a request to make a decision. All statuses are shown, newest first."
+          ? "Review bookings and open a request to make a decision. Requests are shown newest first."
           : "Track decisions and review each booking’s dates and details."}
       </PageHeading>
-      <div className="section-toolbar">
+      <div className="section-toolbar request-filters">
         <div className="field inline-field">
           <label htmlFor="request-kind">Request type</label>
           <select
@@ -77,6 +78,19 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
                 {item === "facility" ? "Facilities" : "Assets"}
               </option>
             ))}
+          </select>
+        </div>
+        <div className="field inline-field">
+          <label htmlFor="request-status">Status</label>
+          <select id="request-status" value={status} onChange={(event) => {
+            setStatus(event.target.value);
+            setPage(1);
+          }}>
+            <option value="">All statuses</option>
+            <option value="APPROVED">Approved</option>
+            <option value="PENDING">Pending</option>
+            <option value="CANCELLED">Cancelled</option>
+            <option value="REJECTED">Rejected</option>
           </select>
         </div>
         <Button
@@ -135,9 +149,8 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
           ))}
         </ul>
       ) : (
-        <EmptyState title={page === 1 ? "No bookings yet" : "No more requests"}>
-          Browse facilities or assets, check availability, and submit your first
-          request.
+        <EmptyState title={page === 1 ? (status ? 'No matching requests' : "No bookings yet") : "No more requests"}>
+          {status ? 'Choose another status or All statuses to see more requests.' : 'Browse facilities or assets, check availability, and submit your first request.'}
         </EmptyState>
       )}
       <div className="pagination">
