@@ -11,6 +11,7 @@ export type Repeat = {
 export type Booking = {
   id: number;
   booking_reference: string;
+  resource_name?: string | null;
   requester_id: number;
   status: string;
   facility_id?: number;

@@ -109,9 +109,10 @@ export default function MyRequests({ review = false }: { review?: boolean }) {
                         : requestLink(kind, booking.id)
                     }
                   >
-                    {booking.booking_reference}
+                    {booking.resource_name || (kind === 'facility' ? 'Facility booking' : 'Asset booking')}
                   </Link>
                 </h2>
+                <p className="muted">{booking.booking_reference}</p>
                 {booking.activity_name && <p>{booking.activity_name}</p>}
                 <p className="muted">
                   {campusDate(bookingStart(booking), true)} –{" "}
