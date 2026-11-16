@@ -49,6 +49,15 @@ export function addDays(day: string, count: number) {
   date.setUTCDate(date.getUTCDate() + count);
   return date.toISOString().slice(0, 10);
 }
+export function defaultBookingPeriod(kind: ResourceKind, now = new Date()) {
+  if (kind === 'facility') {
+    const tomorrow = addDays(campusToday(now), 1);
+    return { start: `${tomorrow}T09:00`, end: `${tomorrow}T10:00` };
+  }
+  // Suggest an upcoming time; this is not a minimum advance-notice rule.
+  const start = (Math.floor(now.getTime() / 60_000) + 5) * 60_000;
+  return { start: localInput(start), end: localInput(start + 60 * 60_000) };
+}
 export function campusInstant(local: string) {
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(local)) return null;
   const date = new Date(`${local}:00Z`);

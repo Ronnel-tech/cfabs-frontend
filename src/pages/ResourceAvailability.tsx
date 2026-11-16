@@ -10,6 +10,7 @@ import {
   availabilityReason,
   campusInstant,
   campusToday,
+  defaultBookingPeriod,
   rangeError,
   resourceCode,
   resourceName,
@@ -35,7 +36,7 @@ export default function ResourceAvailability({ kind }: { kind: ResourceKind }) {
     const start = search.get("start") ?? "", end = search.get("end") ?? "";
     return campusInstant(start) && campusInstant(end)
       ? { start, end }
-      : { start: `${addDays(today, 1)}T09:00`, end: `${addDays(today, 1)}T10:00` };
+      : defaultBookingPeriod(kind);
   });
   const [requestLocked, setRequestLocked] = useState(false);
   const locked =
@@ -165,7 +166,7 @@ export default function ResourceAvailability({ kind }: { kind: ResourceKind }) {
               <p id="period-guidance" className="muted period-guidance">
                 {kind === "facility"
                   ? "Every day, 8 AM–5 PM. Choose a period on one day, starting up to 30 days ahead."
-                  : "Start up to 30 days ahead. There is no fixed borrowing duration limit; an expected return is required."}
+                  : "Same-day borrowing is allowed. Choose a future start time today or up to 30 days ahead. There is no fixed borrowing duration limit; an expected return is required."}
               </p>
               <div id="period-error" aria-live="polite">
                 {error && <p className="notice notice-error">{error}</p>}

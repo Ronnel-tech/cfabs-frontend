@@ -1,8 +1,18 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { addDays, availabilityPath, campusInstant, campusToday, daySchedule, localInput, rangeError } from '../src/lib/availability.ts'
+import { addDays, availabilityPath, campusInstant, campusToday, daySchedule, defaultBookingPeriod, localInput, rangeError } from '../src/lib/availability.ts'
 
 const now = new Date('2026-11-07T01:00:00Z')
+test('asset borrowing defaults to today and accepts future same-day times', () => {
+  const period = defaultBookingPeriod('asset', new Date('2026-11-07T05:35:22Z'))
+  assert.deepEqual(period, { start: '2026-11-07T13:40', end: '2026-11-07T14:40' })
+  assert.equal(rangeError('asset', period.start, period.end, new Date('2026-11-07T05:35:22Z')), '')
+  assert.equal(rangeError('asset', '2026-11-07T09:01', '2026-11-07T10:00', now), '')
+  assert.deepEqual(defaultBookingPeriod('facility', now), { start: '2026-11-08T09:00', end: '2026-11-08T10:00' })
+})
+test('asset default times cross campus midnight and year boundaries correctly', () => {
+  assert.deepEqual(defaultBookingPeriod('asset', new Date('2026-12-31T15:58:59Z')), { start: '2027-01-01T00:03', end: '2027-01-01T01:03' })
+})
 test('campus dates and input conversion are independent of device timezone', () => {
   assert.equal(campusToday(new Date('2026-11-07T18:00:00Z')), '2026-11-08')
   assert.equal(campusInstant('2026-11-08T09:00'), '2026-11-08T09:00:00+08:00')
